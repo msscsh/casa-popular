@@ -1,0 +1,33 @@
+curl --request POST \
+  --url http://localhost:8080/casapopular/familia \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"pontuacao" : 0,
+	"rendaFamiliarAtualizada" : 123,
+	"familiares" : [
+		{
+			"idFamilia" : 0,
+			"idade" : 101,
+			"renda" : 0,
+			"dependente" : true,
+			"pretendente" : false,
+			"conjuge" : false
+		},
+		{
+			"idFamilia" : 0,
+			"idade" : 15,
+			"renda" : 10,
+			"dependente" : true,
+			"pretendente" : false,
+			"conjuge" : false
+		},
+		{
+			"idFamilia" : 0,
+			"idade" : 28,
+			"renda" : 100,
+			"dependente" : false,
+			"pretendente" : true,
+			"conjuge" : false
+		}
+	]
+}'
