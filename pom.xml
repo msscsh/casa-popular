@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.7.2</version>
+		<relativePath />
+	</parent>
+	
+	<groupId>br.com.pasquali</groupId>
+	<artifactId>casa-popular</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>casa-popular</name>
+	<packaging>jar</packaging>
+	<description>Selecao de familias aptas a ganharem uma casa popular</description>
+	
+	<properties>
+		
+		<!-- Versao java -->
+		<java.version>11</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		
+		<!-- Dependencias -->
+		<lombok.version>1.18.24</lombok.version>
+    
+		<!-- Plugins -->
+		<plugin.maven.surefire>3.0.0-M5</plugin.maven.surefire> 
+		<plugin.jacoco.version>0.8.7</plugin.jacoco.version> 
+		
+		<!-- Dependencias de teste -->
+		<junit-jupiter.version>5.4.2</junit-jupiter.version>
+
+		<!-- Configuracoes de enconding -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding> 		
+
+	</properties>
+	
+	<profiles>
+			
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<maven.test.skip>false</maven.test.skip>
+			</properties>
+		</profile>
+		
+		<profile>
+			<id>no-tests</id>
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+		</profile>
+		
+	</profiles>
+	
+	<dependencies>
+	
+		<!-- DEPENDENCIAS SPRING APPLICATION -->
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-undertow</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+				
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+		
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+
+
+		<!-- DEPENDENCIAS DE TERCEIROS -->
+		
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- DEPENDENCIAS DE TESTE -->
+        
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+			    <exclusion>
+			        <groupId>junit</groupId>
+			        <artifactId>junit</artifactId>
+			    </exclusion>
+			</exclusions>
+		</dependency>
+
+	</dependencies>
+	
+	<build>
+	
+		<plugins>
+		
+			<!-- PLUGIN DE SUPORTE PARA COMPILACAO FINAL SPRING BOOT -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			
+			<!-- EXECUCAO DE COBERTURA DE CODIGO COM LIMITADOR -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${plugin.jacoco.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${plugin.maven.surefire}</version>
+				<configuration>
+					<includes>
+						<include>**/*TesteUnitario.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+			
+		</plugins>
+		
+	</build>
+</project>
